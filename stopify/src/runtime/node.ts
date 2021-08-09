@@ -26,6 +26,7 @@ export function init(
     makeEstimator(opts),
     function (): boolean { return false; },
     function (): boolean { return true; },
+    function (): void { },
     function (x: Result): void {
       this.estimator.cancel();
       if (x.type === 'exception') {

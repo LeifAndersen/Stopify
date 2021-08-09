@@ -31,6 +31,7 @@ export abstract class AbstractRunner implements AsyncRun {
   public continuationsRTS!: Runtime;
   private suspendRTS!: RuntimeWithSuspend;
   public onDone: (result: Result) => void = (result) => { };
+  private onRun: () => void = function() { };
   private onYield: () => void = function() { };
   private onBreakpoint: (line: number) => void = function() { };
   private breakpoints: number[] = [];
@@ -109,7 +110,8 @@ export abstract class AbstractRunner implements AsyncRun {
         default: // Step
           return !this.suspendRTS.mayYield();
       }
-    });
+    },
+    this.onRun);
 
     return this;
   }
@@ -132,9 +134,13 @@ export abstract class AbstractRunner implements AsyncRun {
 
   runInit(onDone: (error?: any) => void,
     onYield?: () => void,
-    onBreakpoint?: (line: number) => void) {
+    onBreakpoint?: (line: number) => void,
+    onRun?: () => void) {
     if (onYield) {
       this.onYield = onYield;
+    }
+    if(onRun) {
+      this.onRun = onRun;
     }
     if (onBreakpoint) {
       this.onBreakpoint = onBreakpoint;

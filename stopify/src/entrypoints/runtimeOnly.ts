@@ -24,8 +24,9 @@ class Runner extends AbstractRunner {
 
   run(onDone: (result: Result) => void,
     onYield?: () => void,
-    onBreakpoint?: (line: number) => void) {
-    this.runInit(onDone, onYield, onBreakpoint);
+    onBreakpoint?: (line: number) => void,
+    onRun?: () => void) {
+    this.runInit(onDone, onYield, onBreakpoint, onRun);
     const script = document.createElement('script');
     script.setAttribute('src', this.url);
     document.body.appendChild(script);
