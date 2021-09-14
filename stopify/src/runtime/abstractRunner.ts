@@ -31,7 +31,7 @@ export abstract class AbstractRunner implements AsyncRun {
   public continuationsRTS!: Runtime;
   private suspendRTS!: RuntimeWithSuspend;
   public onDone: (result: Result) => void = (result) => { };
-  private onRun: () => void = function() { };
+  private onResume: () => void = function() { };
   private onYield: () => void = function() { };
   private onBreakpoint: (line: number) => void = function() { };
   private breakpoints: number[] = [];
@@ -111,7 +111,7 @@ export abstract class AbstractRunner implements AsyncRun {
           return !this.suspendRTS.mayYield();
       }
     },
-    this.onRun);
+    this.onResume);
 
     return this;
   }
@@ -135,12 +135,12 @@ export abstract class AbstractRunner implements AsyncRun {
   runInit(onDone: (error?: any) => void,
     onYield?: () => void,
     onBreakpoint?: (line: number) => void,
-    onRun?: () => void) {
+    onResume?: () => void) {
     if (onYield) {
       this.onYield = onYield;
     }
-    if(onRun) {
-      this.onRun = onRun;
+    if(onResume) {
+      this.onResume = onResume;
     }
     if (onBreakpoint) {
       this.onBreakpoint = onBreakpoint;
@@ -150,7 +150,8 @@ export abstract class AbstractRunner implements AsyncRun {
 
   abstract run(onDone: (error?: any) => void,
     onYield?: () => void,
-    onBreakpoint?: (line: number) => void): void;
+    onBreakpoint?: (line: number) => void,
+    onResume?: () => void): void;
 
   pause(onPaused: (line?: number) => void) {
     if (this.eventMode === EventProcessingMode.Paused) {

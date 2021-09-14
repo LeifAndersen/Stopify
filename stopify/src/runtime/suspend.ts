@@ -39,7 +39,7 @@ export class RuntimeWithSuspend {
     /**
      * Called at the start of a program and any time resuming from a yield.
      */
-    public onRun = function(): void { },
+    public onResume = function(): void { },
     /**
      * Called when execution reaches the end of any stopified module.
      */
@@ -99,7 +99,7 @@ export class RuntimeWithSuspend {
           this.onDone = onDone;
           if (this.onYield()) {
             return setImmediate(() => {
-              this.onRun();
+              this.onResume();
               this.rts.runtime(() => continuation(normalUndefResult), onDone);
             });
           }

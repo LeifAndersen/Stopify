@@ -57,8 +57,8 @@ class Runner extends AbstractRunner {
   run(onDone: (result: Result) => void,
     onYield?: () => void,
     onBreakpoint?: (line: number) => void,
-    onRun?: () => void) {
-    this.runInit(onDone, onYield, onBreakpoint, onRun);
+    onResume?: () => void) {
+    this.runInit(onDone, onYield, onBreakpoint, onResume);
     eval.call(global, this.code);
   }
   

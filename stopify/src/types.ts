@@ -42,7 +42,8 @@ export interface AsyncRun {
   g: { [key: string]: any},
   run(onDone: (result: Result) => void,
     onYield?: () => void,
-    onBreakpoint?: (line: number) => void): void;
+    onBreakpoint?: (line: number) => void,
+    onResume?: () => void): void;
   pause(onPaused: (line?: number) => void): void;
   resume(): void;
   setBreakpoints(line: number[]): void;
